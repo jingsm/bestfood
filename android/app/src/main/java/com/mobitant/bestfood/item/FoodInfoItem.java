@@ -16,7 +16,7 @@ public class FoodInfoItem {
     public double longitude;
     public String description;
     @SerializedName("reg_date") public String regDate;
-    @SerializedName("mode_datet") public String modeDate;
+    @SerializedName("mod_date") public String modDate;
     @SerializedName("user_distance_meter") public double userDistanceMeter;
     @SerializedName("is_keep") public boolean isKeep;
     @SerializedName("image_filename") public String imageFilename;
