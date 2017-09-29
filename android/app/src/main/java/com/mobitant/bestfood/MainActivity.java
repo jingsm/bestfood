@@ -1,29 +1,54 @@
 package com.mobitant.bestfood;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.mobitant.bestfood.item.MemberInfoItem;
+import com.mobitant.bestfood.lib.GoLib;
+import com.mobitant.bestfood.lib.StringLib;
+import com.mobitant.bestfood.remote.RemoteService;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+/**
+ * 맛집 정보 앱의 핵심 액티비티이며, 왼쪽에 내비게이션 뷰를 가지며
+ * 다양한 프래그먼트를 보여주는 컨테이너 역할을 한다.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private final String TAG = getClass().getSimpleName();
 
+    MemberInfoItem memberInfoItem;
+    DrawerLayout drawer;
+    View headerLayout;
+
+    CircleImageView profileIconImage;
+
+    /**
+     * 액티비티와 내비게이션 뷰를 설정하고 BestFoodListFragment를 화면에 보여준다.
+     * @param savedInstanceState 액티비티가 새로 생성되었을 경우에 이전 상태 값을 가지는 객체
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        memberInfoItem = ((MyApp)getApplication()).getMemberInfoItem();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         //drawer.setDrawerListener(toggle);
@@ -32,6 +57,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        headerLayout = navigationView.getHeaderView(0);
+
+        GoLib.getInstance()
+                .goFragment(getSupportFragmentManager(), R.id.content_main,
+                        BestFoodListFragment.newInstance());
     }
 
     @Override
@@ -42,13 +73,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
