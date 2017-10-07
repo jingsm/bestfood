@@ -18,7 +18,7 @@ public class ServiceGenerator {
      * @param serviceClass 원격 호출 메소드를 정의한 인터페이스
      * @return 인터페이스 구현체
      */
-    public static <S> S createServer(Class<S> serviceClass) {
+    public static <S> S createService(Class<S> serviceClass) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         if (BuildConfig.DEBUG) {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -33,12 +33,12 @@ public class ServiceGenerator {
                 .setLenient()
                 .create();
 
-        Retrofit retorfit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RemoteService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient.build())
                 .build();
 
-        return retorfit.create(serviceClass);
+        return retrofit.create(serviceClass);
     }
 }

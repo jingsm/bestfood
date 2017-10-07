@@ -18,12 +18,12 @@ public class MemberInfoItem {
     public String toString() {
         return "MemberInfoItem{" +
                 "seq=" + seq +
-                ", phone='" + phone + "\'" +
-                ", name='" + name + "\'" +
-                ", sextype='" + sextype + "\'" +
-                ", birthday='" + birthday + "\'" +
-                ", memberIconFilename='" + memberIconFilename + "\'" +
-                ", regDate='" + regDate + "\'" +
-                "}";
+                ", phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                ", sextype='" + sextype + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", memberIconFilename='" + memberIconFilename + '\'' +
+                ", regDate='" + regDate + '\'' +
+                '}';
     }
 }

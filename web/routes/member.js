@@ -1,6 +1,6 @@
 var express = require('express');
 var db = require('../db');
-var router = express.Rrouter();
+var router = express.Router();
 
 //member/:phone
 router.get('/:phone', function(req, res, next) {

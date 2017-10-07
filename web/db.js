@@ -7,7 +7,7 @@ exports.connect = function(done) {
         connectionLimit: 100,
         host     : 'localhost',
         user     : 'root',
-        password : 'bestfood',
+        password : '1',
         database : 'bestfood'
     });
 }

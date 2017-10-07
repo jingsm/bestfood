@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * 맛집 정보 앱의 핵심 액티비티이며, 왼쪽에 내비게이션 뷰를 가지며
+ * 맛집 정보앱의 핵심 액티비티이며 왼쪽에 네비게이션 뷰를 가지며
  * 다양한 프래그먼트를 보여주는 컨테이너 역할을 한다.
  */
 public class MainActivity extends AppCompatActivity
@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity
     CircleImageView profileIconImage;
 
     /**
-     * 액티비티와 내비게이션 뷰를 설정하고 BestFoodListFragment를 화면에 보여준다.
-     * @param savedInstanceState 액티비티가 새로 생성되었을 경우에 이전 상태 값을 가지는 객체
+     * 액티비티와 네비게이션 뷰를 설정하고 BestFoodListFragment를 화면에 보여준다.
+     * @param savedInstanceState 액티비티가 새로 생성되었을 경우, 이전 상태 값을 가지는 객체
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.setDrawerListener(toggle);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
-     * 변경을 바로 감지하기 위해 화면이 새로 보여질 때마다 setProfileView()를 호출한다.
+     * 변경을 바로 감지하기 위해 화면이 새로 보여질 대마다 setProfileView() 를 호출한다.
      */
     @Override
     protected void onResume() {
@@ -80,8 +80,7 @@ public class MainActivity extends AppCompatActivity
      * 프로필 이미지와 프로필 이름을 설정한다.
      */
     private void setProfileView() {
-        profileIconImage = (CircleImageView) headerLayout.findViewById(R.id.profileicon);
-
+        profileIconImage = (CircleImageView) headerLayout.findViewById(R.id.profile_icon);
         profileIconImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,25 +94,24 @@ public class MainActivity extends AppCompatActivity
         } else {
             Picasso.with(this)
                     .load(RemoteService.MEMBER_ICON_URL + memberInfoItem.memberIconFilename)
-                    .into(profileIconImage)
+                    .into(profileIconImage);
         }
 
-        TextView nameText = (TextView) headerLayout.findViewById((R.id.name);
+        TextView nameText = (TextView) headerLayout.findViewById(R.id.name);
 
         if (memberInfoItem.name == null || memberInfoItem.name.equals("")) {
             nameText.setText(R.string.name_need);
         } else {
-            nameText.setText(memberInfoItem.name);
+            //nameText.setText(memberInfoItem.name);
         }
     }
 
     /**
      * 폰에서 뒤로가기 버튼을 클릭했을 때 호출하는 메소드이며
-     * 내비게이션 메뉴가 보인 상태라면 내비게이션 메뉴를 닫는다.
+     * 네비게이션 메뉴가 보여진 상태일 경우, 네비게이션 메뉴를 닫는다.
      */
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -122,7 +120,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * 내비게이션 메뉴를 클릭했을 때 호출되는 메서드
+     * 네비게이션 메뉴를 클릭했을 때 호출되는 메소드
      * @param item 메뉴 아이템 객체
      * @return 메뉴 클릭 이벤트의 처리 여부
      */
@@ -132,15 +130,22 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_list) {
-            GoLib.getInstance().getFragment(getSupportFragmentManager(), R.id.content_main, BestFoodListFragment.newInstance());
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+                    R.id.content_main, BestFoodListFragment.newInstance());
+
         } else if (id == R.id.nav_map) {
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+                    R.id.content_main, BestFoodMapFragment.newInstance());
 
         } else if (id == R.id.nav_keep) {
+            GoLib.getInstance().goFragment(getSupportFragmentManager(),
+                    R.id.content_main, BestFoodKeepFragment.newInstance());
 
         } else if (id == R.id.nav_register) {
+            GoLib.getInstance().goBestFoodRegisterActivity(this);
 
         } else if (id == R.id.nav_profile) {
-
+            GoLib.getInstance().goProfileActivity(this);
         }
 
         drawer.closeDrawer(GravityCompat.START);

@@ -6,9 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require('./db');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-
 var app = express();
 
 // view engine setup
@@ -17,8 +14,8 @@ app.set('view engine', 'ejs');
 
 db.connect(function(err) {
   if (err) {
-    console.log('Unable to connect to MySQL.');
-    process.exit(1);
+    console.log('Unable to connect to MySQL.')
+    process.exit(1)
   }
 });
 
@@ -30,9 +27,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
 app.use('/member', require('./routes/member'));
+app.use('/food', require('./routes/food'));
+app.use('/keep', require('./routes/keep'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

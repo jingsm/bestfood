@@ -25,7 +25,7 @@ import retrofit2.http.Query;
  * 서버에 호출할 메서드를 선언하는 인터페이스
  */
 public interface RemoteService {
-    String BASE_URL = "http://192.168.168.101:3000";
+    String BASE_URL = "http://192.168.168.102:3000";
     String MEMBER_ICON_URL = BASE_URL + "/member/";
     String IMAGE_URL = BASE_URL + "/img/";
 
@@ -80,7 +80,7 @@ public interface RemoteService {
     Call<String> insertKeep(@Path("member_seq") int memberSeq, @Path("info_seq") int infoSeq);
 
     @DELETE("/keep/{member_seq}/{info_seq}")
-    Call<String> deletekeep(@Path("member_seq") int memberSeq, @Path("info_seq") int infoSeq);
+    Call<String> deleteKeep(@Path("member_seq") int memberSeq, @Path("info_seq") int infoSeq);
 
     @GET("/keep/list")
     Call<ArrayList<KeepItem>> listKeep(@Query("member_seq") int memberSeq,

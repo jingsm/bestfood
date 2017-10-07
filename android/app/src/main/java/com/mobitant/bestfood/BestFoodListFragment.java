@@ -170,7 +170,7 @@ public class BestFoodListFragment extends Fragment implements View.OnClickListen
         RemoteService remoteService = ServiceGenerator.createService(RemoteService.class);
 
         Call<ArrayList<FoodInfoItem>> call = remoteService.listFoodInfo(memberSeq, userLatLng.latitude,
-                                                userLatLng.longitude, orderType, currentPage);
+                userLatLng.longitude, orderType, currentPage);
         call.enqueue(new Callback<ArrayList<FoodInfoItem>>() {
             @Override
             public void onResponse(Call<ArrayList<FoodInfoItem>> call,

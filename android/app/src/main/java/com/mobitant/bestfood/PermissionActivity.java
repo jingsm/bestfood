@@ -13,7 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.mobitnat.bestfood.lib.MyToast;
+import com.mobitant.bestfood.lib.MyToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * 앱을 실행할 때 필요한 권한을 처리하기 위한 액티비티
  */
-
 public class PermissionActivity extends AppCompatActivity {
     private static final int PERMISSION_MULTI_CODE = 100;
 
@@ -44,11 +43,11 @@ public class PermissionActivity extends AppCompatActivity {
     }
 
     /**
-     * 권한을 확인하고 권한이 부여되어 있지 않다면 권한을 요청하다.
+     * 권한을 확인하고 권한이 부여되어 있지 않다면 권한을 요청한다.
      * @return 필요한 권한이 모두 부여되었다면 true, 그렇지 않다면 false
      */
-    private boolean checkAndRequestPermissions() {
-        String [] permissions = new String[] {
+    private  boolean  checkAndRequestPermissions() {
+        String [] permissions = new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -57,8 +56,8 @@ public class PermissionActivity extends AppCompatActivity {
         List<String> listPermissionsNeeded = new ArrayList<>();
 
         for (String permission:permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this,permission )
+                    != PackageManager.PERMISSION_GRANTED){
                 listPermissionsNeeded.add(permission);
             }
         }
@@ -70,7 +69,7 @@ public class PermissionActivity extends AppCompatActivity {
             return false;
         }
 
-        return ture;
+        return true;
     }
 
     /**
@@ -93,8 +92,8 @@ public class PermissionActivity extends AppCompatActivity {
     }
 
     /**
-     * 권한 처리 결과를 보고 인덱스 액티비티를 실행할지,
-     * 권한 설정 요청 다이얼로그를 보여줄지를 결정한다.
+     * 권한 처리 결과를 보고 인덱스 액티비티를 실행할 지,
+     * 권한 설정 요청 다이얼로그를 보여줄 지를 결정한다.
      * 모든 권한이 승인되었을 경우에는 goIndexActivity() 메소드를 호출한다.
      * @param permissions 권한 종류
      * @param grantResults 권한 부여 결과
@@ -112,7 +111,7 @@ public class PermissionActivity extends AppCompatActivity {
         if (isAllGranted) {
             goIndexActivity();
 
-        //권한이 부여되어 있지 않다면
+            //권한이 부여되어 있지 않다면
         } else {
             showPermissionDialog();
         }
@@ -129,7 +128,7 @@ public class PermissionActivity extends AppCompatActivity {
     }
 
     /**
-     * 권한 설정 화면으로 이동할지를 선택하는 다이얼로그를 보여준다.
+     * 권한 설정 화면으로 이동할 지를 선택하는 다이얼로그를 보여준다.
      */
     private void showPermissionDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -139,13 +138,12 @@ public class PermissionActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 MyToast.s(PermissionActivity.this, R.string.permission_setting_restart);
-
                 PermissionActivity.this.finish();
 
                 goAppSettingActivity();
             }
         });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 PermissionActivity.this.finish();

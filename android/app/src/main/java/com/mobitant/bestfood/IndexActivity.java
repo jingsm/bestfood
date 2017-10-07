@@ -75,7 +75,7 @@ public class IndexActivity extends AppCompatActivity {
         TextView messageText = (TextView) findViewById(R.id.message);
         messageText.setVisibility(View.VISIBLE);
 
-        Button closeButton = (Button) findViewById(R.id.close);
+        Button closeButton = (Button) findViewById(R.id.action_close);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
