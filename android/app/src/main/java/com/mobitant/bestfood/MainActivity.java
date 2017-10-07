@@ -65,6 +65,52 @@ public class MainActivity extends AppCompatActivity
                         BestFoodListFragment.newInstance());
     }
 
+    /**
+     * 프로필 정보는 별도 액티비티에서 변경될 수 있으므로
+     * 변경을 바로 감지하기 위해 화면이 새로 보여질 때마다 setProfileView()를 호출한다.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setProfileView();
+    }
+
+    /**
+     * 프로필 이미지와 프로필 이름을 설정한다.
+     */
+    private void setProfileView() {
+        profileIconImage = (CircleImageView) headerLayout.findViewById(R.id.profileicon);
+
+        profileIconImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
+                GoLib.getInstance().goProfileActivity(MainActivity.this);
+            }
+        });
+
+        if (StringLib.getInstance().isBlank(memberInfoItem.memberIconFilename)) {
+            Picasso.with(this).load(R.drawable.ic_person).into(profileIconImage);
+        } else {
+            Picasso.with(this)
+                    .load(RemoteService.MEMBER_ICON_URL + memberInfoItem.memberIconFilename)
+                    .into(profileIconImage)
+        }
+
+        TextView nameText = (TextView) headerLayout.findViewById((R.id.name);
+
+        if (memberInfoItem.name == null || memberInfoItem.name.equals("")) {
+            nameText.setText(R.string.name_need);
+        } else {
+            nameText.setText(memberInfoItem.name);
+        }
+    }
+
+    /**
+     * 폰에서 뒤로가기 버튼을 클릭했을 때 호출하는 메소드이며
+     * 내비게이션 메뉴가 보인 상태라면 내비게이션 메뉴를 닫는다.
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,42 +121,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    /**
+     * 내비게이션 메뉴를 클릭했을 때 호출되는 메서드
+     * @param item 메뉴 아이템 객체
+     * @return 메뉴 클릭 이벤트의 처리 여부
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_list) {
+            GoLib.getInstance().getFragment(getSupportFragmentManager(), R.id.content_main, BestFoodListFragment.newInstance());
+        } else if (id == R.id.nav_map) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_keep) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_register) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_profile) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
